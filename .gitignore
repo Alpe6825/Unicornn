@@ -1,3 +1,4 @@
 /Dataset/data-speech_commands_v0.02/*
 # Project exclude paths
 /venv/
+/.idea/
