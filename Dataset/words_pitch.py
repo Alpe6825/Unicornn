@@ -4,12 +4,10 @@ persons = ['AlexM', 'AlexP', 'Jonas', 'Lara']
 words = ['create', 'delete', 'select', 'color', 'move', 'cube', 'sphere', 'plane', 'red', 'green', 'blue', 'white']
 
 for name in persons:
-    filename1 = name
-    new_filename1 = name
 
     for key in words:
-        filename2 = filename1 + '-' + key
-        new_filename2 = new_filename1 + '-' + key
+        filename2 = name + '-' + key
+        new_filename2 = name + '-' + key
 
         for i in range(1,55):
             if i <= 9:
@@ -24,4 +22,4 @@ for name in persons:
                 y_shifted = librosa.effects.pitch_shift(y, sr, n_steps=2)
                 librosa.output.write_wav(new_filename3, y_shifted, sr)
             except FileNotFoundError:
-                print("File doesn't exist!")
+                print("File doesn't exist: ", filename3)
