@@ -111,9 +111,9 @@ public class MicrophoneInput : MonoBehaviour
         texture = new Texture2D(width, height);
         GetComponent<RawImage>().texture = texture;
         blank = new Color[width * height];
-        
+
         //create blank screen image
-        for(int a = 0; a<size; a++)
+        for (int a = 0; a < size; a++)
         {
             blank[a] = backgroundColor;
         }
@@ -124,7 +124,7 @@ public class MicrophoneInput : MonoBehaviour
     IEnumerator UpdateWaveForm()
     {
         //refresh display each 100ms
-        while(true)
+        while (true)
         {
             GetCurWave();
             yield return new WaitForSeconds(0.1f);
@@ -133,9 +133,10 @@ public class MicrophoneInput : MonoBehaviour
 
     private void GetCurWave()
     {
-        texture.SetPixel(blank, 0);
-        source.GetOutputData(samples, 0);
-        for(int i = 0; i<size; i++)
+        //texture.SetPixel(blank, 0);
+        texture.SetPixel(0,0,Color.white);
+
+        for (int i = 0; i < size; i++)
         {
             texture.SetPixel((int)(width * i / size), (int)(height * (samples[i] + 1f) / 2f), waveformColor);
         }
