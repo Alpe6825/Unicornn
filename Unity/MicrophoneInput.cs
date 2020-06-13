@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(RawImage))]
 public class MicrophoneInput : MonoBehaviour
 {
-    private enum Word { none = 0, first = 1, second = 2, third = 3}
+    private enum Word { none = 0, first = 1, second = 2, third = 3 }
     private Word word;
     private int wordCount;
     private float[] samples;
@@ -18,9 +21,19 @@ public class MicrophoneInput : MonoBehaviour
     private bool isRecording;
     private AudioSource source;
 
-    private List<float> firstWord = new List<float>();
-    private List<float> secondWord = new List<float>();
-    private List<float> thirdWord = new List<float>();
+    [HideInInspector] public List<float> firstWord = new List<float>();
+    [HideInInspector] public List<float> secondWord = new List<float>();
+    [HideInInspector] public List<float> thirdWord = new List<float>();
+    [HideInInspector] public List<float> wholeClip = new List<float>();
+
+    //variables for audio waveform drawing
+    private int width = 500;
+    private int height = 100;
+    private Color backgroundColor = Color.black;
+    private Color waveformColor = Color.green;
+    private int size = 2048;
+    private Color[] blank;
+    private Texture2D texture;
 
     private void Start()
     {
@@ -28,41 +41,30 @@ public class MicrophoneInput : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
-    private void Update()
+    public void StopRecording()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (isRecording)
         {
-            if (!isRecording)
-                StartRecording();
-            else
-                StopRecording();
-        }
+            isRecording = false;
+            Microphone.End(selectedDevice);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(PlayRecording());
+            samples = new float[source.clip.samples * source.clip.channels];
+            source.clip.GetData(samples, 0);
+
+            ProcessAudioClip();
         }
     }
 
-    private void StopRecording()
+    public void StartRecording()
     {
-        isRecording = false;
-        Microphone.End(selectedDevice);
-
-        samples = new float[source.clip.samples * source.clip.channels];
-        source.clip.GetData(samples, 0);
-
-        ProcessAudioClip();
-    }
-
-    void StartRecording()
-    {
+        HandleNewRecording();
         isRecording = true;
         source.clip = Microphone.Start(selectedDevice, true, 5, AudioSettings.outputSampleRate);
         Debug.Log(source.clip.channels);
         source.Play();
+        Invoke("StopRecording", 4);
     }
-
+    
     private void ProcessAudioClip()
     {
         //Cut off the empty space in front and end of Clip
@@ -71,6 +73,7 @@ public class MicrophoneInput : MonoBehaviour
         List<float> buffer = new List<float>();
         foreach (float f in samples)
         {
+            wholeClip.Add(f);
             if (i < 512)
             {
                 buffer.Add(f);
@@ -78,7 +81,6 @@ public class MicrophoneInput : MonoBehaviour
             }
             else
             {
-                Debug.Log(clipLoudness);
                 WriteToWordList(clipLoudness, buffer);
                 i = 0;
                 clipLoudness = 0;
@@ -94,16 +96,54 @@ public class MicrophoneInput : MonoBehaviour
         Debug.Log("first word lenght: " + firstWord.Count().ToString() + "\n");
         Debug.Log("second word lenght: " + secondWord.Count().ToString() + "\n");
         Debug.Log("third word lenght: " + thirdWord.Count().ToString() + "\n");
+        CreateTexture();
+        StartCoroutine(UpdateWaveForm());
+    }
+    
+    //initialization for audio waveform drawing
+    private void CreateTexture()
+    {
+        texture = new Texture2D(width, height);
+        GetComponent<RawImage>().texture = texture;
+        blank = new Color[width * height];
+
+        //create blank screen image
+        for (int a = 0; a < size; a++)
+        {
+            blank[a] = backgroundColor;
+        }
+    }
+
+    IEnumerator UpdateWaveForm()
+    {
+        //refresh display each 100ms
+        while (true)
+        {
+            GetCurWave();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void GetCurWave()
+    {
+        //texture.SetPixel(blank, 0);
+        texture.SetPixel(0, 0, Color.white);
+
+        for (int i = 0; i < wholeClip.Count(); i++)
+        {
+            texture.SetPixel((int)(width * i / wholeClip.Count()), (int)(height * (wholeClip[i] + 1f) / 2f), waveformColor);
+        }
+        texture.Apply();
     }
 
     private void WriteToWordList(float loudness, List<float> buffer)
     {
-        if(loudness > 15 && word == Word.none)
+        if (loudness > 15 && word == Word.none)
         {
             wordCount++;
             word = (Word)wordCount;
         }
-        else if(word != Word.none && loudness < 15)
+        else if (word != Word.none && loudness < 15)
         {
             word = Word.none;
         }
@@ -124,36 +164,23 @@ public class MicrophoneInput : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayRecording()
+    public void PlayRecording(float[] clip)
     {
+        source.Stop();
         int channels = source.clip.channels;
         int freq = source.clip.frequency;
-        if (firstWord.Count > 0)
-        {
-            AudioClip clip = AudioClip.Create("firstWord", firstWord.Count(), channels, freq, false);
-            clip.SetData(firstWord.ToArray(), 0);
-            source.clip = clip;
-            source.Play();
-            yield return new WaitForSeconds(clip.length + 1);
-            source.Stop();
-        }
-        if (secondWord.Count > 0)
-        {
-            AudioClip clip = AudioClip.Create("secondWord", secondWord.Count(), channels, freq, false);
-            clip.SetData(secondWord.ToArray(), 0);
-            source.clip = clip;
-            source.Play();
-            yield return new WaitForSeconds(clip.length + 1);
-            source.Stop();
-        }
-        if (thirdWord.Count > 0)
-        {
-            AudioClip clip = AudioClip.Create("thirdWord", thirdWord.Count(), channels, freq, false);
-            clip.SetData(secondWord.ToArray(), 0);
-            source.clip = clip;
-            source.Play();
-            yield return new WaitForSeconds(clip.length + 1);
-            source.Stop();
-        }
+        AudioClip newAudioClip = AudioClip.Create("clip", clip.Length, channels, freq, false);
+        newAudioClip.SetData(clip, 0);
+        source.clip = newAudioClip;
+        source.Play();
+    }
+
+    private void HandleNewRecording()
+    {
+        wordCount = 0;
+        firstWord.Clear();
+        secondWord.Clear();
+        thirdWord.Clear();
+        processedSamples.Clear();
     }
 }
