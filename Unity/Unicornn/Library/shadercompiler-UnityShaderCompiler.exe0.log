@@ -1,0 +1,87 @@
+Base path: 'C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/PlaybackEngines'
+Cmd: initializeCompiler
+Cmd: initializeCompiler
+Cmd: preprocessCompute
+  insize=12065 outsize=12109 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=12109 outsize=1971 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=12109 outsize=2218 ok=1
+Cmd: preprocessCompute
+  insize=11921 outsize=11985 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=11985 outsize=1620 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=11985 outsize=1616 ok=1
+Cmd: preprocessCompute
+  insize=18269 outsize=18301 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=18301 outsize=5585 ok=1
+Cmd: preprocessCompute
+  insize=66564 outsize=66874 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1634 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1489 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1689 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=3335 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1520 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1311 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1364 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1819 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1849 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1342 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=66874 outsize=1427 ok=1
+Cmd: preprocessCompute
+  insize=72887 outsize=72903 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=72903 outsize=6467 ok=1
+Cmd: preprocessCompute
+  insize=33853 outsize=34089 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=775 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=759 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=701 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=854 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=1258 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=1369 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=1296 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=34089 outsize=1369 ok=1
+Cmd: preprocessCompute
+  insize=79184 outsize=79248 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=79248 outsize=27514 ok=1
+Cmd: preprocessCompute
+  insize=4426 outsize=4442 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=4442 outsize=1750 ok=1
+Cmd: preprocessCompute
+  insize=1896 outsize=1900 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=1900 outsize=3122 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1460 outsize=1690 kw=UNITY_PASS_FORWARDADD DIRECTIONAL pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=1460 outsize=3378 kw=UNITY_PASS_FORWARDADD DIRECTIONAL pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=2295 outsize=858 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=2295 outsize=446 kw= pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+
+Quitting shader compiler process
