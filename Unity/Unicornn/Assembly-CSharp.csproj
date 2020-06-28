@@ -64,17 +64,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Agent.cs" />
-    <Compile Include="Assets\Scripts\MicrophoneInput.cs" />
-    <Compile Include="Assets\Scripts\MicrophoneInputEditor.cs" />
-    <Compile Include="Assets\Scripts\SpeechCommands\SpeechCommands.cs" />
-    <Compile Include="Assets\Scripts\SpeechCommands\SpeechCommandsEditor.cs" />
+    <Compile Include="Assets\Scripts\SpeechCommands\MicrophoneInput.cs" />
+    <Compile Include="Assets\Scripts\SpeechCommands\MicrophoneInputEditor.cs" />
     <Compile Include="Assets\Scripts\SpeechCommands\SpeechCommandsLow.cs" />
     <Compile Include="Assets\Scripts\SpeechCommands\SpeechCommandsLowEditor.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Barracuda.MacBLAS">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.MacBLAS.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Barracuda.Editor">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -85,35 +95,17 @@
     <Reference Include="Unity.Timeline">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Barracuda.MacBLAS">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.MacBLAS.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Barracuda.Editor">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Editor">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Burst.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Barracuda">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.CollabProxy.Editor">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Barracuda.iOSBLAS">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.iOSBLAS.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rider.Editor">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Barracuda.BurstBLAS">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Barracuda.BurstBLAS.dll</HintPath>
@@ -123,6 +115,12 @@
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -301,11 +299,11 @@
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Burst.Unsafe">
-      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/PackageCache/com.unity.burst@1.2.3/Unity.Burst.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/PackageCache/com.unity.barracuda@1.0.0/Barracuda/Runtime/Plugins/ProtoBuffer/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Burst.Unsafe">
+      <HintPath>C:/Users/Jonas/Documents/Uni/HSDMasterMedieninformatik/Intelligente Systeme/Projekt/Unicornn/Unity/Unicornn/Library/PackageCache/com.unity.burst@1.2.3/Unity.Burst.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.6f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
