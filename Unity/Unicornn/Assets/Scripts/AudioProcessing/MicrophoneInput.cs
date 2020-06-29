@@ -13,12 +13,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class MicrophoneInput : MonoBehaviour
 {
-    private enum Word { none = 0, first = 1, second = 2}
-    private Word word;
-    private int wordCount;
-    private float[] samples;
+    CreateWaveform firstWordUI;
+    CreateWaveform secondWordUI;
 
-    private List<float> processedSamples = new List<float>();
+    private float[] samples;
 
     [SerializeField]
     private string selectedDevice;
@@ -27,12 +25,13 @@ public class MicrophoneInput : MonoBehaviour
 
     [HideInInspector] public List<float> firstWord = new List<float>();
     [HideInInspector] public List<float> secondWord = new List<float>();
-    [HideInInspector] public List<float> wholeClip = new List<float>();
 
     private void Start()
     {
         selectedDevice = Microphone.devices[0].ToString();
         source = GetComponent<AudioSource>();
+        firstWordUI = GameObject.Find("FirstWordUI").GetComponent<CreateWaveform>();
+        secondWordUI = GameObject.Find("SecondWordUI").GetComponent<CreateWaveform>();
     }
 
     #region Recording Buttons
@@ -69,18 +68,16 @@ public class MicrophoneInput : MonoBehaviour
     }
     private void HandleNewRecording()
     {
-        wordCount = 0;
         firstWord.Clear();
         secondWord.Clear();
-        processedSamples.Clear();
     }
     #endregion
 
 
+    #region Handle Audio splicing
     public int bufferSize = 1024;
     public float threshhold = 15;
     public float wrapperTimer = 0.1f;
-    //Create List of Buffers
     private void HandleAudioBuffer()
     {
         List<Buffer> allBuffers = new List<Buffer>();
@@ -111,8 +108,6 @@ public class MicrophoneInput : MonoBehaviour
         }
         FindSeries(allBuffers);
     }
-
-    //Iterate through and see if there are following buffers over threshhold
     private void FindSeries(List<Buffer> buffers)
     {
         bool foundSeries = false;
@@ -135,7 +130,6 @@ public class MicrophoneInput : MonoBehaviour
             }
         }
     }
-
     private bool CheckFutureBuffer(int index, List<Buffer> buffers)
     {
         int trueCounter = 0;
@@ -194,10 +188,14 @@ public class MicrophoneInput : MonoBehaviour
         if (seriesCounter == 0)
         {
             firstWord = DeserializedSeries(finalBuffering);
+            if (firstWordUI != null)
+                firstWordUI.CreateTexture(firstWord);
         }
         else if(seriesCounter == 1)
         {
             secondWord = DeserializedSeries(finalBuffering);
+            if (secondWordUI != null) 
+                secondWordUI.CreateTexture(secondWord);
         }
         else
         {
@@ -213,73 +211,7 @@ public class MicrophoneInput : MonoBehaviour
         }
         return deSeries;
     }
-
-
-    /*
-    private void CutAudioFile()
-    {
-        float clipLoudness = 0;
-        int bufferCounter = 0;
-        List<float> buffer = new List<float>();
-        List<float> preBuffer = new List<float>();
-
-        for (int i = 0; i < samples.Length; i++)
-        {
-            wholeClip.Add(samples[i]);
-
-            if (bufferCounter < 1024)
-            {
-                buffer.Add(samples[i]);
-                clipLoudness += Mathf.Abs(samples[i]);
-                bufferCounter++;
-            }
-
-            if (bufferCounter >= 1024)
-            {
-                WriteToWordList(clipLoudness, buffer, preBuffer);
-                bufferCounter = 0;
-                clipLoudness = 0;
-                preBuffer = buffer;
-                buffer.Clear();
-            }
-
-            if (samples[i] != 0)
-                processedSamples.Add(samples[i]);
-        }
-    }
-
-    private void WriteToWordList(float loudness, List<float> buffer, List<float> preBuffer)
-    {
-        if (loudness > 10 && word == Word.none)
-        {
-            wordCount++;
-            word = (Word)wordCount;
-            AddToWord(word, preBuffer);
-        }
-        else if (word != Word.none && loudness < 10)
-        {
-            AddToWord(word, buffer);
-            word = Word.none;
-        }
-        if (loudness > 10)
-        {
-            AddToWord(word, buffer);
-        }
-    }
-
-    private void AddToWord(Word word, List<float> buffer)
-    {
-        switch (word)
-        {
-            case Word.first:
-                firstWord.AddRange(buffer);
-                break;
-            case Word.second:
-                secondWord.AddRange(buffer);
-                break;
-        }
-    }
-    */
+    #endregion
 }
 
 public class Buffer

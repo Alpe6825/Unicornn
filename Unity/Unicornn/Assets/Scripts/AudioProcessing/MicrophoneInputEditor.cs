@@ -28,10 +28,5 @@ public class MicrophoneInputEditor : Editor
             if (myMicrophoneInput.secondWord.Count > 0) 
                 myMicrophoneInput.PlayRecording(myMicrophoneInput.secondWord.ToArray());
         }
-        if(GUILayout.Button("Play All"))
-        {
-            if (myMicrophoneInput.wholeClip.Count > 0)
-                myMicrophoneInput.PlayRecording(myMicrophoneInput.wholeClip.ToArray());
-        }
     }
 }

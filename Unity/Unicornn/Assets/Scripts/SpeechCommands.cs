@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum WORDSLOW {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN }
 
-public class SpeechCommandsLow : MonoBehaviour
+public class SpeechCommands : MonoBehaviour
 {
     public WORDSLOW firstWord;
     public WORDSLOW secondWord;
