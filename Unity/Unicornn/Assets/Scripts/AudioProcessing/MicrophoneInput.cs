@@ -39,6 +39,7 @@ public class MicrophoneInput : MonoBehaviour
     {
         if (isRecording)
         {
+            source.volume = 1;
             isRecording = false;
             Microphone.End(selectedDevice);
 
@@ -50,6 +51,7 @@ public class MicrophoneInput : MonoBehaviour
     }
     public void StartRecording()
     {
+        source.volume = 0;
         HandleNewRecording();
         isRecording = true;
         source.clip = Microphone.Start(selectedDevice, true, 5, AudioSettings.outputSampleRate);
@@ -77,7 +79,8 @@ public class MicrophoneInput : MonoBehaviour
     #region Handle Audio splicing
     public int bufferSize = 1024;
     public float threshhold = 15;
-    public float wrapperTimer = 0.1f;
+    public float frontWrapperTimer = 0.1f;
+    public float endWrapperTimer = 0.1f;
     private void HandleAudioBuffer()
     {
         List<Buffer> allBuffers = new List<Buffer>();
@@ -134,7 +137,7 @@ public class MicrophoneInput : MonoBehaviour
     {
         int trueCounter = 0;
         int falseCounter = 0;
-        for (int i = index; i < index+10; i++)
+        for (int i = index; i < index+25; i++)
         {
             if (buffers.Count > i)
             {
@@ -167,7 +170,7 @@ public class MicrophoneInput : MonoBehaviour
 
         //FrontWrapper
         List<Buffer> frontWrapper = new List<Buffer>();
-        for (int i = 0; i * timeFactor < wrapperTimer; i++)
+        for (int i = 0; i * timeFactor < frontWrapperTimer; i++)
         {
             if (startingPoint - i > 0)
                 frontWrapper.Add(buffers[startingPoint - i]);
@@ -179,7 +182,7 @@ public class MicrophoneInput : MonoBehaviour
         finalBuffering.AddRange(series);
 
         //EndWrapper
-        for (int j = 0; j * timeFactor < wrapperTimer; j++) 
+        for (int j = 0; j * timeFactor < endWrapperTimer; j++) 
         {
             if (index + j < buffers.Count)
                 finalBuffering.Add(buffers[index + j]);
