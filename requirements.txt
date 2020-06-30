@@ -5,3 +5,8 @@ librosa==0.7.2
 Numba==0.48.0
 tqdm==4.46.0
 matplotlib==3.2.1
+datetime
+scipy
+Pillow
+matplot
+numpy
