@@ -78,7 +78,7 @@ class BasicBlock(nn.Module):
         return out
 
 if __name__ == "__main__":
-    model = ResNet(28)
+    model = ResNet(16)
     print(model)
     dummy_input = torch.randn(16, 1, 32, 32, device="cpu")
     torch.onnx.export(model.to("cpu"), dummy_input, "ResNet-Test.onnx", verbose=True)

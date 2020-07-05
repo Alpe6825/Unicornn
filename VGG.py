@@ -97,7 +97,7 @@ class VGG(nn.Module):
 
 
 if __name__ == "__main__":
-    model = VGG(28)
+    model = VGG(16)
     print(model)
     dummy_input = torch.randn(16, 1, 32, 32, device="cpu")
     torch.onnx.export(model.to("cpu"), dummy_input, "VGG-Test.onnx", verbose=True)
