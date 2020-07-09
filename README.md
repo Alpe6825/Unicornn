@@ -42,7 +42,7 @@ Dataset
 
 Warden, P.: Speech Commands: A Dataset for Limited-Vocabulary Speech Recognition (april 2018) https://arxiv.org/abs/1804.03209
 
-We splitt the dataset in a train and tes dataset with the ration 80:20.
+We split the dataset in a train and test dataset with the ratio 80:20.
 
 ![DataBalance](Docu/images/DataBalance.png)
 
@@ -52,15 +52,15 @@ To train the model we use the mel-spectogram instead of raw audio for a better f
 
 ### Training Process
 
-Run the jupyter notebook `train.ipynb`. The section "Params" at the top of the notebook allows ceratin settings like 
-model type and optimizer type. After the notebook finished the folder `Weights` constints the trained weights (.pth) 
+Run the jupyter notebook `train.ipynb`. The section "Params" at the top of the notebook allows certain settings like 
+model type and optimizer type. After the notebook finished the folder `Weights` contains the trained weights (.pth) 
 and model with trainied weights in the ONNX-format. 
 
 
 #### Training Course 
 
 We compared the VGG19BN and ResNet34 such as SGD and Adam.
-All plots based on the Testdataset
+All plots based on the test dataset
 
 **VGG19 + SGD-Optimizer**
 ![VGG_SGD](Docu/images/Loss_Acc_VGG_SGD.png)
@@ -92,7 +92,7 @@ Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/perso
 ### Quick Start 
 
 1. Start **PlayMode** and wait till monitoring says **Python running** and circle is green
- - An background python process is initiated (see requirements.txt)
+ - A background python process is initiated (see requirements.txt)
   > - librosa
   > - numpy
   > - datetime
@@ -133,7 +133,7 @@ Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/perso
   * | **MicrophoneInput.cs:** process microphone input, slice words, use threshold
   * | **PythonInterface.cs:** run background process (librosa) to create spectograms
 * | **Agent**
- * | **Agent.cs:** take .onnx as model and input specotgrams from sliced words, find prediction
+ * | **Agent.cs:** take .onnx as model and input spectograms from sliced words, find prediction
 * | **SceneStuff**
  * | UI elements, buttons and visual elements
 
@@ -161,7 +161,7 @@ Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/perso
 - We process the audio input in Unity3D, save the sliced float arrays as .wav and use librosa to generate mel-spectograms
 - The background python process listens for existing file-names in the project folder and processes them if they exist
  - After processing the process deletes the .wav files for the next iteration
- - The script writes is own pid-ID to a text-file because it is started via cmd.exe
+ - The script writes its own pid-ID to a text-file because it is started via cmd.exe
    - To terminate all processes we need the process-ID for all children-processes
  - By checking if process exited we can monitor the status of our background process
  > process.hasExited()
