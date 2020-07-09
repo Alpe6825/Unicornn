@@ -20,13 +20,13 @@
         - [Python Background Process](#python-background-process)
 
 
-##Training (Jupyter Notebook)
+## Training (Jupyter Notebook)
 
-###Requirements
+### Requirements
 
 `pip install -r requirements.txt`
 
-###Dataset
+### Dataset
 
 Download the [speech_commands_v0.02](http://download.tensorflow.org/data/speech_commands_v0.02.tar.gz) dataset from 
 Warden P. (2018) and unpack it in the `Dataset` folder.
@@ -50,14 +50,14 @@ To train the model we use the mel-spectogram instead of raw audio for a better f
 
 ![Mel](Docu/images/Mel.png)
 
-###Training Process
+### Training Process
 
 Run the jupyter notebook `train.ipynb`. The section "Params" at the top of the notebook allows ceratin settings like 
 model type and optimizer type. After the notebook finished the folder `Weights` constints the trained weights (.pth) 
 and model with trainied weights in the ONNX-format. 
 
 
-####Training Course 
+#### Training Course 
 
 We compared the VGG19BN and ResNet34 such as SGD and Adam.
 All plots based on the Testdataset
@@ -74,22 +74,22 @@ All plots based on the Testdataset
 **ResNet34 + Adam-Optimizer**
 ![ResNet_Adam](Docu/images/Loss_Acc_ResNet_Adam.png)
 
-####Training Result
+#### Training Result
 
 ![ConfusionMatrix](Docu/images/ConfusionMatrix.png)
 
-####Pretrained Models
+#### Pretrained Models
 
 Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/personal/alexander_pech_study_hs-duesseldorf_de/EvkrOhMnV2FPg3neZAskSYMBLLowImHruOMhkVZpDKZKzw?e=chSJqx).
 
 
 ---
-##Deployment (Unity3D)
+## Deployment (Unity3D)
 [Verified for **2019.4.1f - Windows only**]
  * See our video tutorial **[Unicornn - HowTo](Docu/Demovideo.mp4)** for a quick **10 minutes introduction**
  * Contains the same information as the following **Readme.md**
 
-###Quick Start 
+### Quick Start 
 
 1. Start **PlayMode** and wait till monitoring says **Python running** and circle is green
  - An background python process is initiated (see requirements.txt)
@@ -125,7 +125,7 @@ Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/perso
 5. Word splitting and processing is done automatically
  - You can see the detected words and their probability next to our **Unicornn**
 
-###Scene Overview
+### Scene Overview
 
 | **Unicornn**
 * | **GameManager**
@@ -137,26 +137,26 @@ Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/perso
 * | **SceneStuff**
  * | UI elements, buttons and visual elements
 
-###Barracuda Setup
+### Barracuda Setup
 
 - **Barracuda** can be installed via the Unity **Unity PackageManager**. For futher informations look at: [https://docs.unity3d.com/Packages/com.unity.barracuda@0.7/manual/index.html](https://docs.unity3d.com/Packages/com.unity.barracuda@0.7/manual/index.html)
 - Project was tested with **Barracuda 1.0.0**
 
-###General Information
+### General Information
 
-####Models for Agent.cs
+#### Models for Agent.cs
 
 - You can exchange our different trained models by **Drag and Drop**
   - Just drag a different .onnx model to the field in Editor under **Agent** -> **Agent.cs**
   - By default we chose the model with the best results
 
-####Audio settings for MicrophoneInput.cs
+#### Audio settings for MicrophoneInput.cs
 
 - By default we chose a very low threshold to detect silence between words
 - If you have a louder environment it could happen, that a "silent" moment is still above our threshold
   - Only change **GameManager** -> **MicrophoneInput** -> **Threshold** to a bigger value
 
-####Python Background Process
+#### Python Background Process
 
 - We process the audio input in Unity3D, save the sliced float arrays as .wav and use librosa to generate mel-spectograms
 - The background python process listens for existing file-names in the project folder and processes them if they exist
