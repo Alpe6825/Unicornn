@@ -19,7 +19,7 @@ class ResNet(nn.Module):
         self.layer3 = self._make_layer(BasicBlock, 256, layers[2], stride=2)
         self.layer4 = self._make_layer(BasicBlock, 512, layers[3], stride=2)
         self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
-        self.fc = nn.Linear(in_features=512, out_features=1000, bias=True)
+        self.fc = nn.Linear(in_features=512, out_features=num_classes, bias=True)
 
     def _make_layer(self, block, planes, blocks, stride=1):
         downsample = None
