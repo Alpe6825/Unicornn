@@ -66,7 +66,7 @@ All plots based on the test dataset
 ![VGG_SGD](Docu/images/Loss_Acc_VGG_SGD.png)
 
 **VGG19 + Adam-Optimizer (best result)**
-![VGG_Adam](Docu/images/Loss_Acc_VGG_Adam.png)
+![VGG_Adam](Docu/images/Loss_Acc_VGG_Adam.png) 
 
 **ResNet34 + SGD-Optimizer**
 ![ResNet_SGD](Docu/images/Loss_Acc_ResNet_SGD.png)
@@ -76,7 +76,10 @@ All plots based on the test dataset
 
 #### Training Result
 
-![ConfusionMatrix](Docu/images/ConfusionMatrix.png)
+![ConfusionMatrix](Docu/images/Confusion-Matrix_VGG_SGD.png)
+![ConfusionMatrix](Docu/images/Confusion-Matrix_VGG_Adam.png)
+![ConfusionMatrix](Docu/images/Confusion-Matrix_ResNet_SGD.png)
+![ConfusionMatrix](Docu/images/Confusion-Matrix_ResNet_Adam.png)
 
 #### Pretrained Models
 
