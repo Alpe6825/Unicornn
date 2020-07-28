@@ -149,9 +149,9 @@ Download pretrained models from [here](https://fhd-my.sharepoint.com/:f:/g/perso
 
 #### Models for Agent.cs
 
-- You can exchange our different trained models by **Drag and Drop**
-  - Just drag a different .onnx model to the field in Editor under **Agent** -> **Agent.cs**
-  - By default we chose the model with the best results
+- You can exchange our different trained models by using the Button in the lower left corner
+  - If you want to use own models drag them to the coressponding field in **Agents.cs**
+  - By default we chose the model with the best results to start with (VGG + Adam)
 
 #### Audio settings for MicrophoneInput.cs
 
