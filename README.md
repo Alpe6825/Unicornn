@@ -1,6 +1,6 @@
 # Unicornn
 
-![Demobild](Docu/images/Demo.png)
+![Demobild](Docu/images/Unicornn.png)
 
 **Content**
 - [Training (Jupyter Notebook)](#training-(jupyter-notebook))
