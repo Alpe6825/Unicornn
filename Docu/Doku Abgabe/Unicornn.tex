@@ -1,9 +1,9 @@
 \documentclass[sigconf]{acmart}
+
 \setcopyright{none}
-\acmConference[]{
-  Düsseldorf, NRW Deutschland}
+\acmConference[]{}
 \acmYear{}
-\copyrightyear{2020}
+\copyrightyear{}
 \acmISBN{}
 \acmPrice{}
 
@@ -12,6 +12,8 @@
 \AtBeginDocument{%
   \providecommand\BibTeX{{%
     \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
+
+\usepackage[ngerman]{babel}
 
 \begin{document}
 %%
@@ -53,10 +55,12 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-Wir präsentieren eine einfache Sprachsteuerung für die Game Engine Unity 3D. Die Sprachsteuerung erkennt einzelnen Wörter und klassifiziert diese mittels eines neuronalen Netzes. Bestimmte Kombinationen bei der Klassifizierung erlauben eine direkte zu Ordnung zu Unity-Befehlen.  
-Ein Beispiel wäre der Sprachbefehl ,,Move“ + „Forward“, welcher in Unity „transform.position += Vector3.forward“ entspricht.\\
-Bei dem neuronalen Netz handelt es sich um ein Convolutional Neural Network (kurz: CNN). Da diese sich gut für Klassifizierungsaufgaben eignen. Teil dieser Arbeit ist dabei auch der Performanz Vergleich zwischen VGG19 und ResNet sowie der Verwendung des SGD- und Adam-Optimizers beim Trainingsprozess. 
-Zur Demonstration des Projektes wurde eine Demoscene in Unity 3D erstellt welche den Agenten enthält und es ermöglicht via Spracheingabe Objekt im Raum zu bewegen. 
+Wir präsentieren eine einfache Sprachsteuerung für die Game Engine Unity 3D. Die Sprachsteuerung erkennt einzelnen Wörter und klassifiziert diese mittels eines neuronalen Netzes. Bestimmte Kombinationen bei der Klassifizierung erlauben eine direkte Zuordnung zu Unity-Befehlen.  
+Ein Beispiel wäre der Sprachbefehl ,,One“ + „Forward“, welcher in Unity „transform.position += Vector3.forward“ entspricht.
+\newline
+\newline
+Bei dem neuronalen Netz handelt es sich um ein Convolutional Neural Network (kurz: CNN), da diese sich gut für Klassifizierungsaufgaben eignen. Teil dieser Arbeit ist dabei auch der Performanzvergleich zwischen VGG19 \cite{simonyan2014deep} und ResNet \cite{he2015deep} sowie die Verwendung des SGD- und Adam-Optimizers beim Trainingsprozess. 
+Zur Demonstration des Projektes wurde eine Demoscene in Unity 3D erstellt, welche den Agenten enthält und es ermöglicht via Spracheingabe Objekt im Raum zu bewegen. 
 \end{abstract}
 
 %%
@@ -82,142 +86,70 @@ Zur Demonstration des Projektes wurde eine Demoscene in Unity 3D erstellt welche
 \section{Einleitung}
 
 \subsection{Motivation}
-Wir haben uns für dieses Projekt entschieden, da Sprachsteuerungen immer relevanter in unserem Leben werden. Zudem haben wir vorher schon viel mit Audio und GameEngines zu tun gehabt und fanden es interessant ob sich so eine Sprachsteuerung als nützlich erweisen könnte. Es war auch deshalb interessant, weil wir vorher keine Sprachassitenten in Unity oder UE4 bemerkt haben.
+Sprachsteuerungen erhalten eine immer größere Relevanz im alltäglichen Leben (vgl Alexa Siri). Bis lang ist es jedoch so, dass Sprachsteurungen in den meisten Anwendungsfällen eine alternative zu herkömmlichen Steuerungsinteraktionen darstellt, die oft als etwas „spielerisch“ wahrgenommen werden. Wir wollen diesen Aspekt aufgreifen und eine Sprachsteuerung in einer Umgebung implementieren, in welcher dieser Aspekt verstärkt zur Geltung kommt.
 
 \subsection{Ziel}
-Unser Ziel war es eine Sprachsteuerung für die GameEngine Unity zu entwickeln, mit der man einfache Sprachbefehle einsprechen kann und diese dann korrekt verarbeitet und ausgeführt werden. Unity soll imstande sein Objekte in der Szene während diese läuft zu verändern.
+Ziel dieses Projektes war es eine Sprachsteuerung für die GameEngine Unity zu entwickeln, mit der man einfache Sprachbefehle einsprechen kann und diese dann korrekt verarbeitet und ausgeführt werden. Unity soll imstande sein Objekte in der Szene während diese läuft zu verändern.
 
 \section{Environment}
-Möchte man den Aufbau des Projektes in Agent und Umgebung aufteilen, ist zu beachten, dass es eine Trainings- und ein Anwendungsumgebung gibt. Der Agent wird durch das CNN repräsentiert. 
+Möchte man den Aufbau des Projektes in Agent und Umgebung aufteilen, ist zu beachten, dass es eine Trainings- und eine Anwendungsumgebung gibt. Der Agent wird durch das CNN repräsentiert. 
 
-\section{Trainingsumgebung}
+\subsection{Trainingsumgebung}
 \label{section:Umgebung}
 Die Trainingsumgebung wurde in einem Jupyter-Notebook mit dem Machine Learning Framework PyTorch geschrieben. Innerhalb der Umgebung müssen zwei grundlegende Aufgaben realisiert werden. 
-Die erste Aufgabe besteht darin, den Datensatz einzulesen, aufzubereiten und die Einträge mit entsprechendem Label für den Trainingsprozess bereit zu stellen. Die zweite Aufgabe ist der Trainingsprozess selbst. Detail zum Trainingsprozess werden in Kapitel~\ref{section:training} beschrieben. 
-
-\section{Anwendungsumgebung}
-Die Anwendungsumgebung in Unity stellt die Daten in demselben Format wie die Trainingsumgebung bereit. Statt die Ausgabe, wie beim Trainingsprozess,  mit Labeln zu vergleichen, werden die Ergebnisse hier interpretiert, sodass in Unity ein Befehl ausgeführt werden kann. Die Daten werden in Unity mit einem Mircrophone Input erzeugt. Die Aufnahmen werden nach Worten getrennt, wodurch es möglich ist, die Worte einzeln klassifizieren zu können. Dies ist vergleichbar damit, dass Worte im Datensatz als einzelne Dateien hinterlegt sind. 
-
-\section{Trainings Daten}
-Die Trainingsdaten stammen aus dem Speech Command Dataset v0.02 von Warden. Dieser Datensatz enthält tausende von Aufnahme einzelner Worten. Die verschiedenen Worte repräsentieren dabei die Klassen. Für unsere Anwendung sind lediglich die folgenden Worte/Aufnahmen der Klassen relevant: ,,one“, ,,two“, „three“, „four“, „five“, „six“, „seven“, ,,eight“, ,,nine“, ,,forward“, ,,backward“, „left“, „right“, „up“ und ,,down“.  
-
-Die relevanten Daten bilden unseren Datensatz, welcher mit einem Verhältnis von 80/20 in Trainings- und Testdaten aufgeteilt wird. 
-\begin{figure}[H]
+Die erste Aufgabe bestand darin, den Datensatz einzulesen, aufzubereiten und die Einträge mit entsprechendem Label für den Trainingsprozess bereit zu stellen. Die zweite Aufgabe war der Trainingsprozess selbst. Details zum Trainingsprozess werden in Kapitel~\ref{section:training} beschrieben. 
+\subsubsection{Trainingsdaten\\}
+Die Trainingsdaten stammen aus dem Speech Command Dataset v0.02 von Warden\cite{speechcommandsv2}. Dieser Datensatz enthält tausende von Aufnahmen einzelner Worten. Die verschiedenen Worte repräsentieren dabei die Klassen. Für unsere Anwendung sind lediglich die folgenden Worte/Aufnahmen der Klassen relevant: 
+\newline
+\newline
+,,one“, ,,two“, „three“, „four“, „five“, „six“, „seven“, ,,eight“, ,,nine“, ,,forward“, ,,backward“, „left“, „right“, „up“ und ,,down“. 
+\newline
+\newline
+Die relevanten Daten bilden unseren Datensatz, welcher mit einem Verhältnis von 80/20 in Trainings- und Testdaten aufgeteilt wird, siehe Abb. ~\ref{fig:TrainingsDaten}.
+\newline
+\newline
+Die Trainingsdaten liegen im .wav Format vor. Für die Eingabe in die Netze werden die Aufnahmen auf eine Dauer von einer Sekunde beschränkt bzw. erweitert (hinzufügen von Stille). Bei einer Samplerate von 16kHz (mono) würde dies einer Eingabe von 16000 Werten in das Netz entsprechen. Um die Input Size zu verringern wird ein Spektrogramm der Aufnahmen erzeugt.  
+Ein weiterer Vorteil der Verwendung von Spektrogrammen ist, dass es sich um eine drei dimensionale Repräsentation handelt (Zeit, Frequenz, Amplitude). Bei der Verwendung von RAW-Audio gäbe es nur die Dimensionen Zeit und Amplitude. Die dreidimensionale Repräsentation ermöglicht einen detaillierteren Einblick in die Strukturen innerhalb der Aufnahmen, die vom Netz erlernt werden sollen. Gespeichert werden die Spektrogramme in Form von Graustufen-Bildern (x-Ache: Zeit, y-Achse: Frequenz, Pixelwert: Amplitude). X und Y-Dimensionen werden dabei auf je 32 Werte beschränkt und die Amplitude wird normalisiert. 
+\begin{figure}[ht]
   \includegraphics[width=0.45\textwidth]{images/DataBalance}
   \caption{Die verschiedenen Datensätze}
   \Description{}
   \label{fig:TrainingsDaten}
 \end{figure}
-
-Die Trainingsdaten liegen im .wav Format vor. Für die Eingabe in die Netzte werden die Aufnahmen auf eine Dauer von einer Sekunde beschränkt bzw. erweitert (hinzufügen von Stille). Bei einer Samplerate von 16kHz (mono) würde dies einer Eingabe von 16000 Werten in das Netz entsprechen. Um die Input Size zu verringern wird ein Spektrogramm der Aufnahmen erzeugt.  
-
-Ein Vorteil der Verwendung von Spektrogrammen ist, dass es sich um eine drei dimensionale Repräsentation handelt (Zeit, Frequenz, Amplitude). Bei der Verwendung von RAW-Audio gäbe es nur die Dimensionen Zeit und Amplitude. Die dreidimensionale Repräsentation ermöglicht einen detaillierteren Einblick in die Strukturen innerhalb der Aufnahmen, die vom Netz erlernt werden sollen. 
-
-Gespeichert werden die Spektrogramme in Form von Graustufen-Bildern (x-Ache: zeit, y-Achse: Frequenz, pixelwert: Amplitude). X und Y-Dimensionen werden dabei auf je 32 Werte beschränkt und die Amplitude wird normalisiert. 
-
-\section{Mel-Spektrogramm}
-Ein Mel-Spektrogramm ist eine Repräsentation des Kurzzeit-Energiespektrums eines Tons in Abhängigkeit des menschlichen Gehörs. Es simuliert durch Filterbänke wie das menschliche Gehör ein Geräusch wahrnimmt und hebt somit die wichtigen Frequenzen an und schwächt jene Frequenzen ab, die nicht wahrgenommen werden. 
-\begin{figure}[H]
+\subsubsection{Mel-Spektrogramm\\}
+Ein Mel-Spektrogramm ist eine Repräsentation des Kurzzeitenergiespektrums eines Tons in Abhängigkeit des menschlichen Gehörs. Damit diese Abhängigkeit simuliert werden kann, wird die Frequenz an die Mel-Skala\cite{ganchev2005comparative} mit Hilfe von, siehe Formel ~\ref{MelFormel}, angepasst. Es simuliert durch Filterbänke wie das menschliche Gehör ein Geräusch wahrnimmt und hebt somit die wichtigen Frequenzen an und schwächt jene Frequenzen ab, die nicht wahrgenommen werden. 
+\begin{figure}[ht]
   \includegraphics[width=0.45\textwidth]{images/melexplanation}
-  \caption{Unterschiedliche Darstellungsmöglichkeiten von Auido}
+  \caption{Unterschiedliche Darstellungsmöglichkeiten von Audio}
   \Description{}
   \label{fig:TrainingsDaten}
 \end{figure}
-Beim Cepstrum wird auf der x-Achse die „quefrency“ dargestellt. Die Quefrenz hat als Einheit die Zeit und kann als Maß für die Verschiebung von Mustern im Zeitbereich interpretiert werden. 
+
 \newpage
-\subsection{Mel-Spektrogramm als Textur}
+\begin{equation}\label{MelFormel}
+M(f)=1125ln(1+\frac{f}{700})
+\end{equation}
+
+Beim Cepstrum wird auf der x-Achse die „quefrency“ dargestellt. Die Quefrenz hat als Einheit die Zeit und kann als Maß für die Verschiebung von Mustern im Zeitbereich interpretiert werden. 
+
 Das fertige Mel-Spektrogramm kann schließlich auch als eine Art Textur dargestellt werden, siehe Abb.\ref{fig:MelTextur}.  
 Hier beschreibt die Farbe die Intensität, die X-Achse die Quefrenz und die Y-Achse die Frequenzbänder. 
-\begin{figure}[H]
+\begin{figure}[ht]
   \includegraphics[width=0.45\textwidth]{images/Mel}
   \caption{Mel-Spektrogramm als Texture}
   \Description{}
   \label{fig:MelTextur}
 \end{figure}
 
-\section{Agent}
-Da sich das Mel-Spektrogramm als Bild handhaben lässt, bietet sich die Verwendung von 2D-Convolutional Neural Networks an. Grundlegend lässt sich die Verarbeitung der Bilder durch CNNs in zwei Abschnitte einteilen. 
 
-Die Feature Detection dient dazu durch zweidimensionale Faltungen markante Strukturen zu erkennen, welche für bestimmte Klassen typisch sind. Die Werte der Faltungsmatrizen werden im Training erlernt. Zur Reduzierung der Auflösung von Featuremaps wird der Maxpooling Algorithmus mit einer Kernel Größe von 2x2 (Halbierung der Auflösung) verwendet. Von 4 Pixeln wird dabei lediglich der Pixel mit dem größten Wert übernommen. Als Aktivierungsfunktion wird typischerweise die ReLu-Funktion verwendet. 
+\subsection{Anwendungsumgebung}
+Die Anwendungsumgebung in Unity stellt die Daten in demselben Format wie die Trainingsumgebung bereit. Statt die Ausgabe, wie beim Trainingsprozess,  mit Labeln zu vergleichen, werden die Ergebnisse hier interpretiert, sodass in Unity ein Befehl ausgeführt werden kann. Die Daten werden in Unity mit einem Mircrophone Input erzeugt. Die Aufnahmen werden nach Worten getrennt, wodurch es möglich ist, die Worte einzeln klassifizieren zu können. Dies ist vergleichbar damit, dass Worte im Datensatz als einzelne Dateien hinterlegt sind. 
 
-\begin{align}
-ReLu(x) = \begin{Bmatrix}
-f_{u}rx>0 \\
-f_{u}rx \leq 0
-\end{Bmatrix}
-\end{align}
-
-
-Die ReLu-Funktion besitzt keine Obergrenze. Um zu verhindern, das Werte im Laufe des Netzes stark gestreut werden, kommen Batch-Normalisierungs-Layer zwischen den Faltungen zum Einsatz. 
-Der Klassifizierung besteht typischerweise aus vollverbundenen Schichten. Aufgabe ist es auf Basis von vielen gering aufgelösten Featuremaps (Ausgabe des ersten Abschnittes) für jede Klasse einen Score zu errechnen. Letztendlich wird sich bei der Klassenvorhersage dann für die Klasse mit dem höchsten Score entschieden. 
-Für die Klassifikation wurden ein VGG19 und ein ResNet verwendet. Beim VGG handelt es sich um ein neuronales Netzwerk, bei dem die Output-Werte eines Layers als Input-Werte in das darauffolgende Layer gegeben werden. Im Unterschied dazu können bei einem ResNet vor der Eingabe dieser Werte in ein Layer noch Input-Werte vorheriger Layer aufsummiert werden, wodurch ein tieferes Netzwerk entsteht. 
-
-\section{Training}
-\label{section:training}
-Beide Netze wurden über 20 Epochen trainiert. Als Loss Funktion wurde der, für Klassifizierungsprobleme oft verwendende, CrossEntropy-Loss verwendet. Der Loss-Wert wurde, bei einer Batchgröße von 128, pro Batch gemittelt.  
-Um den Trainingsprozess qualitativ bewerten zu können wird nach jeder Epoche der Testdatensatz durch das Netz gespeist. Auf Basis dessen wird, neben der Berechnung eines Loss-Wertes zur Anpassung der Learningrate, überprüft, in wie vielen Fällen die Klassifizierung korrekt liegt.  Ein Accuracy-Wert von 1 repräsentiert dabei den Fall, dass die Klassifizierung für alle Testdaten erfolgreich war. Ein Wert von 0 das keine Klassifizierung korrekt war. 
-Der Trainings Prozess wurde pro Netz mit dem SGD- sowie dem Adam-Optimizer durchlaufen. Letzterer führte bei beiden Netzten zu besseren Ergebnissen. Die Accuracy stieg bei beiden Netzen mit dem Adam Optimizer innerhalb von nur weniger Epochen auf über 90\%, siehe Abb. \ref{fig:VGG_Adam} und Abb. \ref{fig:ResNet_Adam}. Mit dem SGD-Optimizer konnte in keinem der beiden Netzte eine Accuracy von über 90\% innerhalb von 20 Epochen erreicht werden, siehe Abb. \ref{fig:VGG_SGD} und Abb. \ref{fig:ResNet_SGD}.
-
-Die Learningrate war zu Beginn der Trainingsdurchläufe je 0,001. Für den Fall, dass sich der Loss-Wert für die Testdaten über 5 Epochen nicht markant ändert (<0.0001), wurde die Learningrate um den Faktor 10 verkleinert. 
-
-\subsection{Auswertung}
-Basierend auf den Loss und Accuracy-Verläufen der Testdaten im Anhang \ref{section:Anhang} schien die Verwendung des Adam-Optimizers zu besseren Ergebnissen beider Netze sowohl bei den Loss- als auch bei den Accuracy-Werten zu führen. Insgesamt schien das VGG19 Netz mit Batch Normalisierung die besten Ergebnisse liefern zu können.  
-
-Die folgende Confusion-Matrix Abb.\ref{fig:Confusion-Matrix_VGG_Adam} zeigt die entsprechenden Ergebnisse der Testdaten. In den meisten Fällen verteilen sich alle Fehlklassifizierungen gelichmäßig auf alle anderen Klassen. Ausnahme bildet das Wort ,,four“ dies neigt bei einer Fehleinschätzung tendenziell etwas näher zur Klassifizierung als ,,forward“. Grund dafür ist mit hoher Wahrscheinlichkeit die phonetische Ähnlichkeit der beiden Worte.
-\begin{figure}[H]
-  \includegraphics[width=0.4\textwidth]{images/Confusion-Matrix_VGG_Adam}
-  \caption{VGG und Adam}
-  \Description{}
-  \label{fig:Confusion-Matrix_VGG_Adam}
-\end{figure} 
-
-\begin{figure}[H]
-  \includegraphics[width=0.4\textwidth]{images/Confusion-Matrix_ResNet_SGD}
-  \caption{ResNet und SGD}
-  \Description{}
-  \label{fig:Confusion-Matrix_ResNet_SGD}
-\end{figure} 
-
-\begin{figure}[H]
-  \includegraphics[width=0.4\textwidth]{images/Confusion-Matrix_ResNet_Adam}
-  \caption{ResNet und Adam}
-  \Description{}
-  \label{fig:Confusion-Matrix_ResNet_Adam}
-\end{figure} 
-
-\begin{figure}[H]
-  \includegraphics[width=0.4\textwidth]{images/Confusion-Matrix_VGG_SGD}
-  \caption{VGG und SGD}
-  \Description{}
-  \label{fig:Confusion-Matrix_VGG_SGD}
-\end{figure} 
-
-Des Weiteren fällt auf, dass die Worte ,,forward“ und ,,backward“ weniger gut erkannt werden als der Rest. In Tabelle \ref{table:data} wurde bereits deutlich, dass für zwei der Klassen weniger Beispielen vorliegen. Bei diesen handelt es sich um die Worte ,,forward“ und ,,backward“ 
-
-\begin{center}
-\label{table:data}
-\begin{tabular}{llll}
-zero & 4052 & eight & 3787  \\
-one & 3890 & nine & 3934  \\
-two & 3880 & forward & 1557  \\
-three &  3727 & backward & 1664 \\
-four & 3728 & left & 3801 \\
-five & 4052 & Right & 3779\\
-six & 3860 & up & 3723\\
-seven & 3998 & down & 3917 
-\end{tabular}
-\end{center}
-
-Ursprünglich war eine größere Varianz an Wortkombinationsmöglichkeiten geplant. Dazu wurden bereits Sprachaufnahmen von den Worten der folgenden Wörten gesammelt: „create“, „delete“, „select“, „color“, „move“, „cube“, „sphere“, „plane“, „red“, „green“, „blue“, „white“. 
-
-Pro Wort kamen insgesamt 147 Aufnahmen zusammen. Daraufhin war geplant diese mit Hilfe von Audio-Modulationen (u.a. Hall, Pitch, Verschiebung) zu verändern und so auf ca. 1000 Aufnahmen zu erweitern. Durch die Verwendung von zufälligen Werten bei den Modulationen sollte Korrelationen, die durch gleiche Modulations-Funktionen entstehen und zu Fehlklassifikationen führen könnten, entgegengewirkt werden.  
-Dies war allerdings leider nicht genug, da man für eine möglichst genaue Vorhersage ca. 3000 Aufnahmen braucht, was man auch anhand von der Tabelle \ref{table:data} und Abb. \ref{fig:Confusion-Matrix_VGG_Adam} sehen kann.
-
-\section{Deployment}
+\subsubsection{Deployment\\}
 Mit dem Barraduca Package ist es möglich Neuronale Netz in Unity zu verwenden. Das Plugin kann Netze im eigenen Format .nn, sowie im Austauschformat .onnx einlesen und anwenden. Dabei werden noch nicht alle Funktionalitäten des ONNX-Formats komplett unterstützt. Für die Anwendung einfacher feedforward Netze ist die Komptabilität allerdings weitestgehend gegeben. Den Trainingsprozess konnten wir so mit dem Machine Learning Framework PyTorch durchführen und die Netze mit den entsprechenden Trainingständen als ONNX exportieren. Abb. \ref{fig:UnityApp} zeigt die Demo-Anwendung in Unity, welche die Anwendungsumgebung aus Kapitel \ref{section:Umgebung} darstellt. 
 
-\subsection{Audio Slicing}
-In dem Notebook “FeatureDetection” ist der Vorgang in Python umgeschrieben worden und nocheinmal deutlicher erklärt worden. In der Anwendung läuft dies über ein C\#-Script. 
+\subsubsection{Audio Slicing\\}
+In dem Notebook “FeatureDetection” \footnote[1]{https://github.com/Alpe6825/Unicornn/blob/master/slicingShowcase/Feature\\Detection.ipynb}  ist der Vorgang zur Verdeutlichung  in Python umgesetzt worden. In der Anwendung läuft dies über ein C\#-Script. 
 
 Der Ablauf des Algorithmus: 
 \begin{itemize}
@@ -228,67 +160,157 @@ Der Ablauf des Algorithmus:
 \item Die Buffer-Liste wieder in eine Float-Liste konvertieren
 \end{itemize}
 
-Man hat einige Einstellungsmöglichkeiten, mit denen man die Genauigkeit anpassen könnte. ZB. Die Größe der Buffer verringern oder den Threshhold verändern.
+Es gibt Einstellungsmöglichkeiten, mit denen man die Genauigkeit anpassen könnte. Zum Beispiel Die Größe der Buffer verringern oder den Threshhold verändern.
 Dies funktioniert relativ zuverlässig und hat nur bei den Wörter "forward" und "backward" Probleme, wahrscheinlich weil dort beim Sprechen eine kleine Pause im Wort ist. Dem kann man entgegenwirken indem man die Buffersize erhöht. \\
 In Abb. \ref{fig:Audio} sieht man die gesamte Audiospur und Abb. \ref{fig:Audio1} und Abb. \ref{fig:Audio2} zeigen die einzelnen getrennten Worte.
-\begin{figure}[H]
+
+\begin{figure}[ht]
   \includegraphics[width=0.3\textwidth]{images/Audio1}
   \caption{Waveform der gesamten Audiospur.}
   \Description{}
   \label{fig:Audio}
 \end{figure} 
-\begin{figure}[H]
+\begin{figure}[ht]
   \includegraphics[width=0.3\textwidth]{images/Audio2}
   \caption{Waveform des ersten Wortes.}
   \Description{}
   \label{fig:Audio1}
 \end{figure} 
-\begin{figure}[H]
+\begin{figure}[ht]
   \includegraphics[width=0.3\textwidth]{images/Audio3}
   \caption{Waveform des zweiten Wortes.}
   \Description{}
   \label{fig:Audio2}
 \end{figure} 
-\section{Fazit}
 
-\subsection{Zusammenfassung}
-Wir haben einen Sprachassistent für Unity 3D entwickelt, der in seiner Funktionsweise derzeit noch stark begrenzt ist, dafür aber solide funktioniert. Eine Skalierung ist bei entsprechender Anzahl von Trainingsdaten durchaus denkbar. 
+\section{Agent}
+Da sich das Mel-Spektrogramm als Bild handhaben lässt, bietet sich die Verwendung von 2D-Convolutional Neural Networks an. Grundlegend lässt sich die Verarbeitung der Bilder durch CNNs in zwei Abschnitte einteilen. 
 
-\subsection{Aussicht}
+Die Feature Detection dient dazu durch zweidimensionale Faltungen markante Strukturen zu erkennen, welche für bestimmte Klassen typisch sind. Die Werte der Faltungsmatrizen werden im Training erlernt. Zur Reduzierung der Auflösung von Featuremaps wird der Maxpooling Algorithmus mit einer Kernel Größe von 2x2 (Halbierung der Auflösung) verwendet. Von 4 Pixeln wird dabei lediglich der Pixel mit dem größten Wert übernommen. Als Aktivierungsfunktion wird typischerweise die ReLu-Funktion, siehe Formel~\ref{ReLu} verwendet. 
+
+
+\begin{equation}\label{ReLu}
+ReLu(x) = max(0,x)
+\end{equation}
+
+
+Die ReLu-Funktion besitzt keine Obergrenze. Um zu verhindern, das Werte im Laufe des Netzes stark gestreut werden, kommen Batch-Normalisierungs-Layer \cite{ioffe2015batch} zwischen den Faltungen zum Einsatz. 
+Der Klassifizierung besteht typischerweise aus vollverbundenen Schichten. Aufgabe ist es auf Basis von vielen gering aufgelösten Featuremaps (Ausgabe des ersten Abschnittes) für jede Klasse einen Score zu errechnen. Letztendlich wird sich bei der Klassenvorhersage dann für die Klasse mit dem höchsten Score entschieden. 
+Für die Klassifikation wurden ein VGG19 und ein ResNet verwendet. Beim VGG handelt es sich um ein neuronales Netzwerk, bei dem die Output-Werte eines Layers als Input-Werte in das darauffolgende Layer gegeben werden. Im Unterschied dazu können bei einem ResNet vor der Eingabe dieser Werte in ein Layer noch Input-Werte vorheriger Layer aufsummiert werden, wodurch ein tieferes Netzwerk entsteht. 
+
+\section{Training}
+\label{section:training}
+Beide Netze wurden über 20 Epochen trainiert. Als Loss Funktion wurde der, für Klassifizierungsprobleme oft verwendende, CrossEntropy-Loss verwendet. Der Loss-Wert wurde, bei einer Batchgröße von 128, pro Batch gemittelt.  
+Um den Trainingsprozess qualitativ bewerten zu können wird nach jeder Epoche der Testdatensatz durch das Netz gespeist. Auf Basis dessen wird, neben der Berechnung eines Loss-Wertes zur Anpassung der Learningrate, überprüft, in wie vielen Fällen die Klassifizierung korrekt liegt.  Ein Accuracy-Wert von 1 repräsentiert dabei den Fall, dass die Klassifizierung für alle Testdaten erfolgreich war. Ein Wert von 0 das keine Klassifizierung korrekt war. 
+Der Trainings Prozess wurde pro Netz mit dem SGD- sowie dem Adam-Optimizer durchlaufen. Letzterer führte bei beiden Netzen zu besseren Ergebnissen. Die Accuracy stieg bei beiden Netzen mit dem Adam Optimizer innerhalb von nur weniger Epochen auf über 90\%, siehe Abb. \ref{fig:VGG_Adam} und Abb. \ref{fig:ResNet_Adam}. Mit dem SGD-Optimizer konnte in keinem der beiden Netze eine Accuracy von über 90\% innerhalb von 20 Epochen erreicht werden, siehe Abb. \ref{fig:VGG_SGD} und Abb. \ref{fig:ResNet_SGD}.
+\newline
+\newline
+Die Learningrate war zu Beginn der Trainingsdurchläufe je 0,001. Für den Fall, dass sich der Loss-Wert für die Testdaten über 5 Epochen nicht markant ändert (<0.0001), wurde die Learningrate um den Faktor 10 verkleinert. 
+
+\section{Auswertung}
+Basierend auf den Loss und Accuracy-Verläufen der Testdaten im Anhang \ref{section:Anhang} schien die Verwendung des Adam-Optimizers zu besseren Ergebnissen beider Netze sowohl bei den Loss- als auch bei den Accuracy-Werten zu führen. Insgesamt schien das VGG19 Netz mit Batch Normalisierung die besten Ergebnisse liefern zu können.  
+\newline
+\newline
+Die folgende Confusion-Matrix Abb.\ref{fig:Confusion-Matrix_VGG_Adam} zeigt die entsprechenden Ergebnisse der Testdaten. In den meisten Fällen verteilen sich alle Fehlklassifizierungen gleichmäßig auf alle anderen Klassen. Ausnahme bildet das Wort ,,four“ dies neigt bei einer Fehleinschätzung tendenziell etwas näher zur Klassifizierung als ,,forward“. Grund dafür ist mit hoher Wahrscheinlichkeit die phonetische Ähnlichkeit der beiden Worte.
+\begin{figure}[ht]
+  \includegraphics[width=0.5\textwidth]{images/Confusion-Matrix_VGG_Adam}
+  \caption{VGG und Adam}
+  \Description{}
+  \label{fig:Confusion-Matrix_VGG_Adam}
+\end{figure} 
+
+\begin{figure}[ht]
+  \includegraphics[width=0.5\textwidth]{images/Confusion-Matrix_ResNet_SGD}
+  \caption{ResNet und SGD}
+  \Description{}
+  \label{fig:Confusion-Matrix_ResNet_SGD}
+\end{figure} 
+
+\newpage
+
+\begin{figure}[ht]
+  \includegraphics[width=0.5\textwidth]{images/Confusion-Matrix_ResNet_Adam}
+  \caption{ResNet und Adam}
+  \Description{}
+  \label{fig:Confusion-Matrix_ResNet_Adam}
+\end{figure} 
+
+\begin{figure}[ht]
+  \includegraphics[width=0.5\textwidth]{images/Confusion-Matrix_VGG_SGD}
+  \caption{VGG und SGD}
+  \Description{}
+  \label{fig:Confusion-Matrix_VGG_SGD}
+\end{figure} 
+
+Des Weiteren scheint es als werden die Worte ,,forward“ und ,,backward“ weniger gut erkannt werden als der Rest. In Tabelle \ref{table:data} wurde bereits deutlich, dass für zwei der Klassen weniger Beispielen vorliegen. Bei diesen handelt es sich um die Worte ,,forward“ und ,,backward“.
+\newline
+\newline
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{llll}
+zero & 4052 & eight & 3787  \\
+one & 3890 & nine & 3934  \\
+two & 3880 & forward & 1557  \\
+three &  3727 & backward & 1664 \\
+four & 3728 & left & 3801 \\
+five & 4052 & Right & 3779\\
+six & 3860 & up & 3723\\
+seven & 3998 & down & 3917 
+\end{tabular}
+\caption{Anzahl der Daten im Datensatz von Warden\cite{speechcommandsv2}.}
+\label{table:data}
+\end{table}
+
+Ursprünglich war eine größere Varianz an Wortkombinationsmöglichkeiten geplant. Dazu wurden bereits Sprachaufnahmen von den Worten der folgenden Wörten gesammelt: 
+\newline
+\newline
+„create“, „delete“, „select“, „color“, „move“, „cube“, „sphere“, „plane“, „red“, „green“, „blue“, „white“. 
+\newline
+\newline
+Pro Wort kamen insgesamt 147 Aufnahmen zusammen. Daraufhin war geplant diese mit Hilfe von Audio-Modulationen (u.a. Hall, Pitch, Verschiebung) zu verändern und so auf ca. 1500 Aufnahmen zu erweitern. Durch die Verwendung von zufälligen Werten bei den Modulationen sollten Korrelationen, die durch gleiche Modulations-Funktionen entstehen und zu Fehlklassifikationen führen könnten, verhindert werden.\\
+Bislang gelang es nicht eine Verzehnfachung ohne Korrelation zu erzeugen.
+
+\section{Fazit \& Ausblick}
+Wir haben einen Sprachassistent für Unity 3D entwickelt, der in seiner Funktionsweise derzeit noch stark begrenzt ist, dafür aber solide funktioniert. Eine Skalierung ist bei entsprechender Anzahl von Trainingsdaten durchaus denkbar. Eine mögliche Erweiterung könnte zukünftig darin bestehen, RNNs oder LSTMs für die Verarbeitung von kontinuierlichen Inputsequenzen zu verwenden.
+\newline
+\newline
 Derzeit wird die Spektrogramm Berechnung noch in Python durchgeführt, da in Unity 3D keine entsprechenden Funktionen bereitstehen. Der Umweg über ein Python-Script im Hintergrund kann der Zeit noch als Bottelneck der Pipline betrachtet werden und wäre für eine Auslieferung des Programms sicherlich nicht optimal. Eine Umsetzung der Daten komplett in Unity steht noch aus. 
+\newline
+\newline
+Es funktioniert relativ gut einen Sprachassistent für Unity zu entwickeln. Ein größeres Hinderniss wäre die Trainingsdatenmenge, welche nötig ist, damit die Worte richtig erkannt werden. 
 
-\subsection{Conclusion}
-Es ist funktioniert relativ gut einen Sprach assistenten für Unity zu entwickeln. Ein größeres Hinderniss wäre die Trainingsdatenmenge, welche nötig ist, damit die Worte richtig erkannt werden. 
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{literatur.bib}
 
+\newpage
+\onecolumn
 \appendix
 \section{Anhang}
 \label{section:Anhang}
 \begin{figure}[H]
-  \includegraphics[width=0.45\textwidth]{images/Loss_Acc_VGG_SGD}
+  \includegraphics[width=0.7\textwidth]{images/Loss_Acc_VGG_SGD}
   \caption{Loss Accuracy von VGG \& SGD}
   \Description{}
   \label{fig:VGG_SGD}
 \end{figure} 
 
-
 \begin{figure}[H]
-  \includegraphics[width=0.45\textwidth]{images/Loss_Acc_VGG_Adam}
+  \includegraphics[width=0.7\textwidth]{images/Loss_Acc_VGG_Adam}
   \caption{Loss Accuracy von VGG \& Adam}
   \Description{}
   \label{fig:VGG_Adam}
 \end{figure} 
 
-
 \begin{figure}[H]
-  \includegraphics[width=0.45\textwidth]{images/Loss_Acc_ResNet_SGD}
+  \includegraphics[width=0.7\textwidth]{images/Loss_Acc_ResNet_SGD}
   \caption{Loss Accuracy von ResNet \& SGD}
   \Description{}
   \label{fig:ResNet_SGD}
 \end{figure} 
 
-
 \begin{figure}[H]
-  \includegraphics[width=0.45\textwidth]{images/Loss_Acc_ResNet_Adam}
+  \includegraphics[width=0.7\textwidth]{images/Loss_Acc_ResNet_Adam}
   \caption{Loss Accuracy von ResNet \& Adam}
   \Description{}
   \label{fig:ResNet_Adam}
