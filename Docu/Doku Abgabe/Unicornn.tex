@@ -1,12 +1,17 @@
 \documentclass[sigconf]{acmart}
-
+\usepackage{titlesec}
 \setcopyright{none}
-\acmConference[]{}
+\acmConference[]{Deutschland, NRW, Düsseldorf}
 \acmYear{}
-\copyrightyear{}
+\acmVolume{}
+\acmNumber{}
+\acmArticle{}
+\copyrightyear{2020}
 \acmISBN{}
 \acmPrice{}
-
+\acmSubmissionID{}
+\acmDOI{}
+\titlelabel{\upshape\thetitle\quad}
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
 \AtBeginDocument{%
@@ -14,7 +19,7 @@
     \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
 
 \usepackage[ngerman]{babel}
-
+\AfterEndEnvironment{equation}{\ignorespaces\newline}
 \begin{document}
 %%
 %% The "title" command has an optional parameter,
@@ -98,7 +103,7 @@ Möchte man den Aufbau des Projektes in Agent und Umgebung aufteilen, ist zu bea
 \label{section:Umgebung}
 Die Trainingsumgebung wurde in einem Jupyter-Notebook mit dem Machine Learning Framework PyTorch geschrieben. Innerhalb der Umgebung müssen zwei grundlegende Aufgaben realisiert werden. 
 Die erste Aufgabe bestand darin, den Datensatz einzulesen, aufzubereiten und die Einträge mit entsprechendem Label für den Trainingsprozess bereit zu stellen. Die zweite Aufgabe war der Trainingsprozess selbst. Details zum Trainingsprozess werden in Kapitel~\ref{section:training} beschrieben. 
-\subsubsection{Trainingsdaten\\}
+\subsubsection{\normalfont{Trainingsdaten}}
 Die Trainingsdaten stammen aus dem Speech Command Dataset v0.02 von Warden\cite{speechcommandsv2}. Dieser Datensatz enthält tausende von Aufnahmen einzelner Worten. Die verschiedenen Worte repräsentieren dabei die Klassen. Für unsere Anwendung sind lediglich die folgenden Worte/Aufnahmen der Klassen relevant: 
 \newline
 \newline
@@ -111,12 +116,12 @@ Die relevanten Daten bilden unseren Datensatz, welcher mit einem Verhältnis von
 Die Trainingsdaten liegen im .wav Format vor. Für die Eingabe in die Netze werden die Aufnahmen auf eine Dauer von einer Sekunde beschränkt bzw. erweitert (hinzufügen von Stille). Bei einer Samplerate von 16kHz (mono) würde dies einer Eingabe von 16000 Werten in das Netz entsprechen. Um die Input Size zu verringern wird ein Spektrogramm der Aufnahmen erzeugt.  
 Ein weiterer Vorteil der Verwendung von Spektrogrammen ist, dass es sich um eine drei dimensionale Repräsentation handelt (Zeit, Frequenz, Amplitude). Bei der Verwendung von RAW-Audio gäbe es nur die Dimensionen Zeit und Amplitude. Die dreidimensionale Repräsentation ermöglicht einen detaillierteren Einblick in die Strukturen innerhalb der Aufnahmen, die vom Netz erlernt werden sollen. Gespeichert werden die Spektrogramme in Form von Graustufen-Bildern (x-Ache: Zeit, y-Achse: Frequenz, Pixelwert: Amplitude). X und Y-Dimensionen werden dabei auf je 32 Werte beschränkt und die Amplitude wird normalisiert. 
 \begin{figure}[ht]
-  \includegraphics[width=0.45\textwidth]{images/DataBalance}
+  \includegraphics[width=0.4\textwidth]{images/DataBalance}
   \caption{Die verschiedenen Datensätze}
   \Description{}
   \label{fig:TrainingsDaten}
 \end{figure}
-\subsubsection{Mel-Spektrogramm\\}
+\subsubsection{\normalfont{Mel-Spektrogramm}}
 Ein Mel-Spektrogramm ist eine Repräsentation des Kurzzeitenergiespektrums eines Tons in Abhängigkeit des menschlichen Gehörs. Damit diese Abhängigkeit simuliert werden kann, wird die Frequenz an die Mel-Skala\cite{ganchev2005comparative} mit Hilfe von, siehe Formel ~\ref{MelFormel}, angepasst. Es simuliert durch Filterbänke wie das menschliche Gehör ein Geräusch wahrnimmt und hebt somit die wichtigen Frequenzen an und schwächt jene Frequenzen ab, die nicht wahrgenommen werden. 
 \begin{figure}[ht]
   \includegraphics[width=0.45\textwidth]{images/melexplanation}
@@ -130,9 +135,8 @@ Ein Mel-Spektrogramm ist eine Repräsentation des Kurzzeitenergiespektrums eines
 M(f)=1125ln(1+\frac{f}{700})
 \end{equation}
 
-Beim Cepstrum wird auf der x-Achse die „quefrency“ dargestellt. Die Quefrenz hat als Einheit die Zeit und kann als Maß für die Verschiebung von Mustern im Zeitbereich interpretiert werden. 
-
-Das fertige Mel-Spektrogramm kann schließlich auch als eine Art Textur dargestellt werden, siehe Abb.\ref{fig:MelTextur}.  
+\noindent Beim Cepstrum wird auf der x-Achse die „quefrency“ dargestellt. Die Quefrenz hat als Einheit die Zeit und kann als Maß für die Verschiebung von Mustern im Zeitbereich interpretiert werden.\\
+\noindent Das fertige Mel-Spektrogramm kann schließlich auch als eine Art Textur dargestellt werden, siehe Abb.\ref{fig:MelTextur}.  
 Hier beschreibt die Farbe die Intensität, die X-Achse die Quefrenz und die Y-Achse die Frequenzbänder. 
 \begin{figure}[ht]
   \includegraphics[width=0.45\textwidth]{images/Mel}
@@ -145,13 +149,14 @@ Hier beschreibt die Farbe die Intensität, die X-Achse die Quefrenz und die Y-Ac
 \subsection{Anwendungsumgebung}
 Die Anwendungsumgebung in Unity stellt die Daten in demselben Format wie die Trainingsumgebung bereit. Statt die Ausgabe, wie beim Trainingsprozess,  mit Labeln zu vergleichen, werden die Ergebnisse hier interpretiert, sodass in Unity ein Befehl ausgeführt werden kann. Die Daten werden in Unity mit einem Mircrophone Input erzeugt. Die Aufnahmen werden nach Worten getrennt, wodurch es möglich ist, die Worte einzeln klassifizieren zu können. Dies ist vergleichbar damit, dass Worte im Datensatz als einzelne Dateien hinterlegt sind. 
 
-\subsubsection{Deployment\\}
+\subsubsection{\normalfont{Deployment}}
 Mit dem Barraduca Package ist es möglich Neuronale Netz in Unity zu verwenden. Das Plugin kann Netze im eigenen Format .nn, sowie im Austauschformat .onnx einlesen und anwenden. Dabei werden noch nicht alle Funktionalitäten des ONNX-Formats komplett unterstützt. Für die Anwendung einfacher feedforward Netze ist die Komptabilität allerdings weitestgehend gegeben. Den Trainingsprozess konnten wir so mit dem Machine Learning Framework PyTorch durchführen und die Netze mit den entsprechenden Trainingständen als ONNX exportieren. Abb. \ref{fig:UnityApp} zeigt die Demo-Anwendung in Unity, welche die Anwendungsumgebung aus Kapitel \ref{section:Umgebung} darstellt. 
 
-\subsubsection{Audio Slicing\\}
+\subsubsection{\normalfont{Audio Slicing}}
 In dem Notebook “FeatureDetection” \footnote[1]{https://github.com/Alpe6825/Unicornn/blob/master/slicingShowcase/Feature\\Detection.ipynb}  ist der Vorgang zur Verdeutlichung  in Python umgesetzt worden. In der Anwendung läuft dies über ein C\#-Script. 
-
-Der Ablauf des Algorithmus: 
+\newline
+\newline
+\noindent Der Algorithmus: 
 \begin{itemize}
 \item Einlesen der .wav
 \item Konvertieren in eine Liste aus Buffern (Custom Class)
@@ -160,7 +165,7 @@ Der Ablauf des Algorithmus:
 \item Die Buffer-Liste wieder in eine Float-Liste konvertieren
 \end{itemize}
 
-Es gibt Einstellungsmöglichkeiten, mit denen man die Genauigkeit anpassen könnte. Zum Beispiel Die Größe der Buffer verringern oder den Threshhold verändern.
+\noindent Es gibt Einstellungsmöglichkeiten, mit denen man die Genauigkeit anpassen könnte. Zum Beispiel Die Größe der Buffer verringern oder den Threshhold verändern.
 Dies funktioniert relativ zuverlässig und hat nur bei den Wörter "forward" und "backward" Probleme, wahrscheinlich weil dort beim Sprechen eine kleine Pause im Wort ist. Dem kann man entgegenwirken indem man die Buffersize erhöht. \\
 In Abb. \ref{fig:Audio} sieht man die gesamte Audiospur und Abb. \ref{fig:Audio1} und Abb. \ref{fig:Audio2} zeigen die einzelnen getrennten Worte.
 
@@ -184,8 +189,7 @@ In Abb. \ref{fig:Audio} sieht man die gesamte Audiospur und Abb. \ref{fig:Audio1
 \end{figure} 
 
 \section{Agent}
-Da sich das Mel-Spektrogramm als Bild handhaben lässt, bietet sich die Verwendung von 2D-Convolutional Neural Networks an. Grundlegend lässt sich die Verarbeitung der Bilder durch CNNs in zwei Abschnitte einteilen. 
-
+Da sich das Mel-Spektrogramm als Bild handhaben lässt, bietet sich die Verwendung von 2D-Convolutional Neural Networks an. Grundlegend lässt sich die Verarbeitung der Bilder durch CNNs in zwei Abschnitte einteilen.\\
 Die Feature Detection dient dazu durch zweidimensionale Faltungen markante Strukturen zu erkennen, welche für bestimmte Klassen typisch sind. Die Werte der Faltungsmatrizen werden im Training erlernt. Zur Reduzierung der Auflösung von Featuremaps wird der Maxpooling Algorithmus mit einer Kernel Größe von 2x2 (Halbierung der Auflösung) verwendet. Von 4 Pixeln wird dabei lediglich der Pixel mit dem größten Wert übernommen. Als Aktivierungsfunktion wird typischerweise die ReLu-Funktion, siehe Formel~\ref{ReLu} verwendet. 
 
 
@@ -194,7 +198,7 @@ ReLu(x) = max(0,x)
 \end{equation}
 
 
-Die ReLu-Funktion besitzt keine Obergrenze. Um zu verhindern, das Werte im Laufe des Netzes stark gestreut werden, kommen Batch-Normalisierungs-Layer \cite{ioffe2015batch} zwischen den Faltungen zum Einsatz. 
+\noindent Die ReLu-Funktion besitzt keine Obergrenze. Um zu verhindern, das Werte im Laufe des Netzes stark gestreut werden, kommen Batch-Normalisierungs-Layer \cite{ioffe2015batch} zwischen den Faltungen zum Einsatz. 
 Der Klassifizierung besteht typischerweise aus vollverbundenen Schichten. Aufgabe ist es auf Basis von vielen gering aufgelösten Featuremaps (Ausgabe des ersten Abschnittes) für jede Klasse einen Score zu errechnen. Letztendlich wird sich bei der Klassenvorhersage dann für die Klasse mit dem höchsten Score entschieden. 
 Für die Klassifikation wurden ein VGG19 und ein ResNet verwendet. Beim VGG handelt es sich um ein neuronales Netzwerk, bei dem die Output-Werte eines Layers als Input-Werte in das darauffolgende Layer gegeben werden. Im Unterschied dazu können bei einem ResNet vor der Eingabe dieser Werte in ein Layer noch Input-Werte vorheriger Layer aufsummiert werden, wodurch ein tieferes Netzwerk entsteht. 
 
@@ -242,7 +246,7 @@ Die folgende Confusion-Matrix Abb.\ref{fig:Confusion-Matrix_VGG_Adam} zeigt die 
   \label{fig:Confusion-Matrix_VGG_SGD}
 \end{figure} 
 
-Des Weiteren scheint es als werden die Worte ,,forward“ und ,,backward“ weniger gut erkannt werden als der Rest. In Tabelle \ref{table:data} wurde bereits deutlich, dass für zwei der Klassen weniger Beispielen vorliegen. Bei diesen handelt es sich um die Worte ,,forward“ und ,,backward“.
+\noindent Des Weiteren scheint es als werden die Worte ,,forward“ und ,,backward“ weniger gut erkannt werden als der Rest. In Tabelle \ref{table:data} wurde bereits deutlich, dass für zwei der Klassen weniger Beispielen vorliegen. Bei diesen handelt es sich um die Worte ,,forward“ und ,,backward“.
 \newline
 \newline
 
@@ -262,7 +266,7 @@ seven & 3998 & down & 3917
 \label{table:data}
 \end{table}
 
-Ursprünglich war eine größere Varianz an Wortkombinationsmöglichkeiten geplant. Dazu wurden bereits Sprachaufnahmen von den Worten der folgenden Wörten gesammelt: 
+\noindent Ursprünglich war eine größere Varianz an Wortkombinationsmöglichkeiten geplant. Dazu wurden bereits Sprachaufnahmen von den Worten der folgenden Wörten gesammelt: 
 \newline
 \newline
 „create“, „delete“, „select“, „color“, „move“, „cube“, „sphere“, „plane“, „red“, „green“, „blue“, „white“. 
